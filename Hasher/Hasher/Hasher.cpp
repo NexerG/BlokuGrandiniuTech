@@ -1,10 +1,8 @@
-// Hasher.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include <string>
 #include <bitset>
-#include <algorithm> 
+#include <algorithm>
+#include <sstream>
 #include "Konstantos.h"
 using namespace std;
 
@@ -12,11 +10,21 @@ string atkonvertavimas(string bitai)
 {
 	string HexZodis;
 
-	for (int i = 0; i < bitai.length(); i=i+9)
+	if (bitai.length() > 8)
+		for (int i = 0; i < bitai.length(); i = i + 9)
+		{
+			bitset<8> raide(bitai.substr(i, 8));
+			stringstream ss;
+			ss << hex << raide.to_ullong();
+			HexZodis += ss.str();
+			cout << ss.str() << endl;
+		}
+	else
 	{
-		bitset<8> raide(bitai.substr(i, 8));
-		HexZodis += static_cast<char>(raide.to_ulong());
-		cout << raide.to_ulong() << endl;
+		bitset<8> raide(bitai);
+		stringstream ss;
+		ss << hex << raide;
+		HexZodis += ss.str();
 	}
 
 	return HexZodis;
@@ -24,11 +32,11 @@ string atkonvertavimas(string bitai)
 
 string Rotacija(string veiksnys, size_t i)
 {
-	if (i % 2 == 0)
+	if (i % 3 == 0)
 	rotate(veiksnys.begin(), veiksnys.begin() + 7, veiksnys.end());
-	else if (i % 3 == 0)
+	else if (i % 3 == 1)
 		rotate(veiksnys.begin(), veiksnys.begin() + 5, veiksnys.end());
-	else if (i % 2 == 1)
+	else if (i % 3 == 2)
 		rotate(veiksnys.begin(), veiksnys.begin() + 3, veiksnys.end());
 	else
 		rotate(veiksnys.begin(), veiksnys.begin() + 1, veiksnys.end());
@@ -41,7 +49,6 @@ int main()
 {
 	string zodis;
 	cin >> zodis;
-
 	Konstantos Konst;
 
 	if (zodis.length() < 64)
@@ -76,8 +83,10 @@ int main()
 
 		bitai += rotuojam + " ";
 	}
-	//bitai
-	//cout << bitai;
-	string Hashas = atkonvertavimas(bitai);
-	cout << Hashas;
+
+	//debug
+	cout << atkonvertavimas(bitai);
+
+	//string Hashas = atkonvertavimas(bitai);
+	//cout << Hashas;
 }
