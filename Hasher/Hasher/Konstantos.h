@@ -10,9 +10,6 @@ public:
 	void pirminiai(int Konst[]);
 	bool isPrime(int n);
 
-	Konstantos()
-	{
-		pirminiai(Konst);
-	}
+	Konstantos();
 };
 

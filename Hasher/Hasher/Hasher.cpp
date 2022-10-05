@@ -6,6 +6,8 @@
 #include "Konstantos.h"
 using namespace std;
 
+int HashIlgis=32; //turi buti dvigubai mazesnis uz Hash ilgi nes HexaDecimal yra sudarytas is 2 simboliu
+
 string atkonvertavimas(string bitai)
 {
 	string HexZodis;
@@ -17,7 +19,6 @@ string atkonvertavimas(string bitai)
 			stringstream ss;
 			ss << hex << raide.to_ullong();
 			HexZodis += ss.str();
-			cout << ss.str() << endl;
 		}
 	else
 	{
@@ -48,24 +49,47 @@ string Rotacija(string veiksnys, size_t i)
 int main()
 {
 	string zodis;
-	cin >> zodis;
 	Konstantos Konst;
 
-	if (zodis.length() < 64)
+	int startas;
+	cout << "Pasirinkite kaip norite atlikti hash.\n1. Ivedimas ranka\n2. Is failo";
+	cin >> startas;
+	if(startas==1)
+		cin >> zodis;
+	else if (startas == 2)
 	{
-		//dametam iki 64
-		for (size_t i = zodis.length(); i < 64; i++)
+		int automatizuotas;
+		cout << endl<<"1. 2 failai su 1000 skirtingai sugeneruotu simboliu kurie labai skiriasi\n2. 2 failai su 1000 skirtingai sugeneruotu simboliu, kurie beveik nesiskiria\n3. 2 failai kuriuose po 1 skirtinga simboli";
+		cin >> automatizuotas;
+		if (automatizuotas == 1)
+		{
+
+		}
+		else if (automatizuotas == 2)
+		{
+
+		}
+		else if (automatizuotas == 3)
+		{
+
+		}
+	}
+
+	if (zodis.length() < HashIlgis)
+	{
+		//datraukiam zodi iki reikiamo ilgio per konstantas
+		for (size_t i = zodis.length(); i < HashIlgis; i++)
 		{
 			zodis += Konst.Konst[i];
 		}
 	}
 
-	else if (zodis.length() > 64)
+	if (zodis.length() > HashIlgis)
 	{
-		//sumazinam iki 64
-		for (size_t i = zodis.length(); i > 64; i--)
+		//datraukiam zodi iki reikiamo ilgio per konstantas
+		for (size_t i = zodis.length(); i > HashIlgis; i--)
 		{
-			zodis[i - 64] = (int)zodis[i - 64] / (int)zodis[i];
+			zodis[i - HashIlgis] = (int)zodis[i - HashIlgis] / (int)zodis[i-1];
 		}
 	}
 
@@ -84,9 +108,5 @@ int main()
 		bitai += rotuojam + " ";
 	}
 
-	//debug
 	cout << atkonvertavimas(bitai);
-
-	//string Hashas = atkonvertavimas(bitai);
-	//cout << Hashas;
 }
