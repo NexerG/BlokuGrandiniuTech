@@ -140,9 +140,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Hasher.cpp" />
+    <ClCompile Include="Hashinimas.cpp" />
     <ClCompile Include="Konstantos.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Hashinimas.h" />
     <ClInclude Include="Konstantos.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

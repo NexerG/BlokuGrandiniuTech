@@ -21,9 +21,15 @@
     <ClCompile Include="Konstantos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Hashinimas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Konstantos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hashinimas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
