@@ -7,12 +7,12 @@
 #include "Hashinimas.h"
 using namespace std;
 
-int HashIlgis=32; //turi buti dvigubai mazesnis uz Hash ilgi nes HexaDecimal yra sudarytas is 2 simboliu
+const int HashIlgis = 32; //turi buti dvigubai mazesnis uz Hash ilgi nes HexaDecimal yra sudarytas is 2 simboliu
 void generuojamF(int generacija);
 
 int main()
 {
-	string zodis="a";
+	string zodis;
 	Hashinimas veiksmas;
 	string pavad1, pavad2;
 
@@ -25,10 +25,12 @@ int main()
 		cin >> zodis;
 		veiksmas.darom(zodis, HashIlgis);
 	}
+
 	else if (startas == 2)
 	{
 		int generacija;
 		int automatizuotas;
+		//string zodis1, zodis2;
 
 		cout << endl<<"1. 2 failai su 1000 skirtingai sugeneruotu simboliu kurie labai skiriasi\n2. 2 failai su 1000 skirtingai sugeneruotu simboliu, kurie beveik nesiskiria\n3. 2 failai kuriuose po 1 skirtinga simboli";
 		cin >> automatizuotas;
@@ -41,19 +43,21 @@ int main()
 		if (automatizuotas == 1)
 		{
 			ifstream fs1("Hasher1.txt");
-			ifstream fs2("Hasher1.txt");
+			ifstream fs2("Hasher2.txt");
 
 			if (fs1.good() && fs2.good())
-				for (int i = 0; i < 2; i++)
-				{
-					fs1 >> zodis;
-					fs1.close();
-					veiksmas.darom(zodis, HashIlgis);
+			{
+				fs1 >> zodis;
+				fs1.close();
+				veiksmas.darom(zodis, HashIlgis);
+				zodis.clear();
 
-					fs1 >> zodis;
-					fs1.close();
-					veiksmas.darom(zodis, HashIlgis);
-				}
+				fs1 >> zodis;
+				fs1.close();
+				veiksmas.darom(zodis, HashIlgis);
+				zodis.clear();
+
+			}
 			else
 			{
 				cout << "failai nesugeneruoti. Generuojama...\n";
@@ -66,15 +70,16 @@ int main()
 			ifstream fs1("Hasher1.txt");
 			ifstream fs2("Hasher2.txt");
 
-			if(fs1.good() && fs2.good())
-				for (int i = 0; i < 2; i++)
-				{
-					fs1 >> zodis;
-					veiksmas.darom(zodis, HashIlgis);
+			if (fs1.good() && fs2.good())
+			{
+				fs1 >> zodis;
+				veiksmas.darom(zodis, HashIlgis);
+				zodis.clear();
 
-					fs2 >> zodis;
-					veiksmas.darom(zodis, HashIlgis);
-				}
+				fs2 >> zodis;
+				veiksmas.darom(zodis, HashIlgis);
+				zodis.clear();
+			}
 			else
 			{
 				cout << "failai nesugeneruoti. Generuojama...\n";
@@ -85,11 +90,8 @@ int main()
 		}
 		else if (automatizuotas == 3)
 		{
-			for (int i = 0;i < 2;i++)
-			{
-				veiksmas.darom(zodis, HashIlgis);
-				zodis = "b";
-			}
+				veiksmas.darom("a", HashIlgis);
+				veiksmas.darom("b", HashIlgis);
 		}
 	}
 }

@@ -61,7 +61,8 @@ void Hashinimas::darom(string zodis, int HashIlgis)
 		//sutrumpinam stringa iki reikiamo ilgio
 		for (size_t i = zodis.length(); i > HashIlgis; i--)
 		{
-			zodis[i - HashIlgis] = (int)zodis[i - HashIlgis] / (int)zodis[i - 1];
+			zodis[i - HashIlgis] = (int)zodis[i - HashIlgis] / ((int)zodis[i]+1);
+			zodis.pop_back();
 		}
 	}
 
@@ -78,5 +79,4 @@ void Hashinimas::darom(string zodis, int HashIlgis)
 	}
 
 	cout << endl << atkonvertavimas(bitai) << endl;
-
 }
