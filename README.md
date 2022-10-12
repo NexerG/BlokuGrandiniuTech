@@ -12,10 +12,10 @@ Bandyta 2 kartus su 100'000 skritingų 1000 simbolių ilgio "stringų". Nė vien
 
 ## Išvados
 Striprybės:  
-??? 
+Skaičiuojant šešioliktainį naudojama ne keista dvejetainė matematika, bet unikalus žodžio kodas.  
 
 Silpnybės:  
-matematiškai labai sunku padaryti, kad kolizijų nebūtų (su 64 šešioliktainio išvesties kodo limitu).  
+Matematiškai labai sunku padaryti, kad kolizijų nebūtų (su 64 šešioliktainio išvesties kodo limitu).  
 
 ## Pseudo kodas:
 {  
