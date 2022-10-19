@@ -26,12 +26,15 @@ int main()
 	int startas;
 	cout << "Pasirinkite kaip norite atlikti hash.\n1. Ivedimas ranka\n2. Is failo\n3. Konstitucija\n";
 	cin >> startas;
+
+	//ivedimas ranka
 	if (startas == 1)
 	{
 		cin >> zodis;
 		veiksmas.darom(zodis, HashIlgis);
 	}
 
+	//duomenys is failu (be konstitucijos)
 	else if (startas == 2)
 	{
 		int generacija;
@@ -170,6 +173,7 @@ int main()
 				{
 					Tikrinimas.push_back(veiksmas.darom(dummy, HashIlgis));
 				}
+				fs.close();
 
 				//tikrinimas hashu lygmeny
 				for (int i = 0; i < Tikrinimas.size(); i++)
@@ -186,7 +190,30 @@ int main()
 				HashSkirtumas = HashSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length());
 				Tikrinimas.clear();
 				cout << "\nHashu panasumas, kai originalus stringai skiriasi labai mazai, yra: " << HashSkirtumas << "%\n";
+				
+				string Pirmas, Antras;
+				for (int i = 0; i < Tikrinimas.size(); i++)
+				{
+					for (int j = i + 1; j < Tikrinimas.size(); j++)
+					{
+						for (int k = 0; k < Tikrinimas[i].length(); k++)
+						{
+							Pirmas = bitset<8>(Tikrinimas[i][k]).to_string();
+							Antras = bitset<8>(Tikrinimas[j][k]).to_string();
+							for (int b = 0; b < 8; b++)
+							{
+								if (Pirmas[b] == Antras[b])
+									BitSkirtumas++;
+							}
+						}
+					}
+				}
+				BitSkirtumas = BitSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length() * 8);
+				cout << "\nHashu panasumas, bitu lygmenyje, yra: " << BitSkirtumas << "%\n";
 			}
+
+			//tikrinimas bitu lygmeny
+
 			else
 			{
 				cout << "failai nesugeneruoti. Generuojama...\n";
@@ -194,6 +221,8 @@ int main()
 			}
 		}
 	}
+
+	//konstitucija
 	else if (startas == 3)
 	{
 		//konstitucija
@@ -285,7 +314,7 @@ void generuojamF(int generacija)
 	else if (generacija == 5)
 	{
 		ofstream fd("Hasher1.txt");
-		int RandIlgis, zdzIlgis = 200;;
+		int RandIlgis, zdzIlgis = 100;
 
 		for (int i = 0; i < zdzIlgis; i++)
 		{
@@ -293,7 +322,7 @@ void generuojamF(int generacija)
 			c = 'a' + r;            // Convert to a character from a-z
 			zodis += c;
 		}
-		for (int i = 0; i < 25000; i++)
+		for (int i = 0; i < 10000; i++)
 		{
 			RandIlgis = rand() % zdzIlgis;
 			r = rand() % 26;
