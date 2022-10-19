@@ -35,8 +35,11 @@ int main()
 		int automatizuotas;
 		//string zodis1, zodis2;
 
-		cout << endl << "1. 2 failai su 1000 skirtingai sugeneruotu simboliu kurie labai skiriasi\n2. 2 failai su 1000 skirtingai sugeneruotu simboliu, kurie beveik nesiskiria\n3. 2 failai kuriuose po 1 skirtinga simboli\n";
+		cout << "\n1. 2 failai su 1000 skirtingai sugeneruotu simboliu kurie labai skiriasi\n";
+		cout << "2. 2 failai su 1000 skirtingai sugeneruotu simboliu, kurie beveik nesiskiria\n";
+		cout << "3. 2 failai kuriuose po 1 skirtinga simboli\n";
 		cout << "4. Tikrinti faila su " << punktas4 << " stringu (eiluciu), kuriu ilgiai po 1000\n";
+		cout << "5. Tikrinti hashu ir ju bitu skirtinguma\n";
 		cin >> automatizuotas;
 
 		cout << "ar generuoti failus? 1- Taip. 2- Ne.\n";
@@ -53,12 +56,12 @@ int main()
 			{
 				fs1 >> zodis;
 				fs1.close();
-				veiksmas.darom(zodis, HashIlgis);
+				cout << veiksmas.darom(zodis, HashIlgis);
 				zodis.clear();
 
 				fs1 >> zodis;
 				fs1.close();
-				veiksmas.darom(zodis, HashIlgis);
+				cout << veiksmas.darom(zodis, HashIlgis);
 				zodis.clear();
 
 			}
@@ -69,6 +72,7 @@ int main()
 			}
 			fs1.close(); fs2.close();
 		}
+
 		else if (automatizuotas == 2)
 		{
 			ifstream fs1("Hasher1.txt");
@@ -77,11 +81,11 @@ int main()
 			if (fs1.good() && fs2.good())
 			{
 				fs1 >> zodis;
-				veiksmas.darom(zodis, HashIlgis);
+				cout << veiksmas.darom(zodis, HashIlgis);
 				zodis.clear();
 
 				fs2 >> zodis;
-				veiksmas.darom(zodis, HashIlgis);
+				cout << veiksmas.darom(zodis, HashIlgis);
 				zodis.clear();
 			}
 			else
@@ -92,11 +96,13 @@ int main()
 
 			fs1.close(); fs2.close();
 		}
+
 		else if (automatizuotas == 3)
 		{
-			veiksmas.darom("a", HashIlgis);
-			veiksmas.darom("b", HashIlgis);
+			cout << veiksmas.darom("a", HashIlgis);
+			cout << veiksmas.darom("b", HashIlgis);
 		}
+
 		else if (automatizuotas == 4)
 		{
 			ifstream fs1("Hasher1.txt");
@@ -108,7 +114,7 @@ int main()
 				for (int i = 0; i < punktas4; i++)
 				{
 					fs1 >> zodis;
-					eksportas = veiksmas.darom2(zodis, HashIlgis) + "\n";
+					eksportas = veiksmas.darom(zodis, HashIlgis) + "\n";
 					fd << eksportas;
 
 					eksportas.clear();
@@ -134,20 +140,59 @@ int main()
 				dummy.clear();
 			}
 			fs2.close();
-			fs2.open("25000.txt");
+
 			for (int i = 0; i < punktas4; i++)
 			{
-				fs2 >> dummy;
-				for (int j = 0; j < punktas4; j++)
+				for (int j = i + 1; j < punktas4; j++)
 				{
-					if (tikrinam[j] == dummy && i != j)
+					if (tikrinam[j] == tikrinam[i] && i != j)
 						kartojames++;
 				}
 			}
 			cout << kartojames << " kartu kartojasi\n";
 		}
+
+		else if (automatizuotas == 5)
+		{
+			ifstream fs("Hasher1.txt");
+			if (fs.good())
+			{
+				//apsirasom kintamuosius
+				string dummy;
+				float HashSkirtumas = 0, BitSkirtumas = 0;
+				vector<string> Tikrinimas;
+
+				//surinkimas
+				while (fs >> dummy)
+				{
+					Tikrinimas.push_back(veiksmas.darom(dummy, HashIlgis));
+				}
+
+				//tikrinimas hashu lygmeny
+				for (int i = 0; i < Tikrinimas.size(); i++)
+				{
+					for (int j = i + 1; j < Tikrinimas.size(); j++)
+					{
+						for (int k = 0; k < Tikrinimas[i].length(); k++)
+						{
+							if (Tikrinimas[i][k] == Tikrinimas[j][k])
+								HashSkirtumas += 1;
+						}
+					}
+				}
+				HashSkirtumas = HashSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length());
+
+				cout << "\nHashu panasumas, kai skirtumas tarp simboliu minimalus, yra: " << HashSkirtumas << "%\n";
+			}
+			else
+			{
+				cout << "failai nesugeneruoti. Generuojama...\n";
+				generuojamF(automatizuotas);
+			}
+		}
 	}
 }
+
 void generuojamF(int generacija)
 {
 	srand(time(NULL));
@@ -203,7 +248,7 @@ void generuojamF(int generacija)
 			for (int i = 0; i < 1000; i++)
 			{
 				r = rand() % 26;   // generate a random number
-				c = 'a' + r;            // Convert to a character from a-z
+				c = 'a' + r;       // Convert to a character from a-z
 				zodis += c;
 			}
 			fd << zodis << endl;
@@ -211,4 +256,26 @@ void generuojamF(int generacija)
 		}
 		fd.close();
 	}
+
+	else if (generacija == 5)
+	{
+		ofstream fd("Hasher1.txt");
+		int RandIlgis,zdzIlgis=200;
+
+		for (int i = 0; i < zdzIlgis; i++)
+		{
+			r = rand() % 26;   // generate a random number
+			c = 'a' + r;            // Convert to a character from a-z
+			zodis += c;
+		}
+		for (int i = 0; i < 1000; i++)
+		{
+			RandIlgis = rand() % zdzIlgis;
+			r = rand() % 26;
+			zodis[RandIlgis] = 'a' + r;
+			fd << zodis << endl;
+		}
+		fd.close();
+	}
+	cout << "Sugeneruota.\n";
 }

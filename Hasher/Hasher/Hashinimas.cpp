@@ -10,6 +10,8 @@ string atkonvertavimas(string bitai)
 			bitset<8> raide(bitai.substr(i, 8));
 			stringstream ss;
 			ss << hex << raide.to_ullong();
+			if (ss.str().length() != 2)
+				ss << ss.str();
 			HexZodis += ss.str();
 		}
 	else
@@ -37,49 +39,49 @@ string Rotacija(string veiksnys, int ZUniKodas)
 	return veiksnys;
 }
 
-void Hashinimas::darom(string zodis, int HashIlgis)
-{
-	Konstantos Konst;
-	int ZUniKodas = 0;
+//void Hashinimas::darom(string zodis, int HashIlgis)
+//{
+//	Konstantos Konst;
+//	int ZUniKodas = 0;
+//
+//	for (int i = 0;i < zodis.length();i++)
+//	{
+//		ZUniKodas += (int)zodis[i];
+//	}
+//
+//	if (zodis.length() < HashIlgis)
+//	{
+//		//datraukiam zodi iki reikiamo ilgio per konstantas
+//		for (size_t i = zodis.length(); i < HashIlgis; i++)
+//		{
+//			zodis += Konst.Konst[i];
+//		}
+//	}
+//
+//	if (zodis.length() > HashIlgis)
+//	{
+//		//sutrumpinam stringa iki reikiamo ilgio
+//		for (size_t i = zodis.length(); i > HashIlgis; i--)
+//		{
+//			zodis[i - HashIlgis] = (int)zodis[i - HashIlgis] / ((int)zodis[i]+1);
+//			zodis.pop_back();
+//		}
+//	}
+//
+//	string bitai;
+//	for (size_t i = 0; i < zodis.size(); i++)
+//	{
+//		string rotuojam = bitset<8>(zodis[i]).to_string();
+//
+//		int BitUniKodas = (int)zodis[i] + ZUniKodas;
+//		//rotuojam bitus
+//		rotuojam = Rotacija(rotuojam, BitUniKodas);
+//
+//		bitai += rotuojam + " ";
+//	}
+//}
 
-	for (int i = 0;i < zodis.length();i++)
-	{
-		ZUniKodas += (int)zodis[i];
-	}
-
-	if (zodis.length() < HashIlgis)
-	{
-		//datraukiam zodi iki reikiamo ilgio per konstantas
-		for (size_t i = zodis.length(); i < HashIlgis; i++)
-		{
-			zodis += Konst.Konst[i];
-		}
-	}
-
-	if (zodis.length() > HashIlgis)
-	{
-		//sutrumpinam stringa iki reikiamo ilgio
-		for (size_t i = zodis.length(); i > HashIlgis; i--)
-		{
-			zodis[i - HashIlgis] = (int)zodis[i - HashIlgis] / ((int)zodis[i]+1);
-			zodis.pop_back();
-		}
-	}
-
-	string bitai;
-	for (size_t i = 0; i < zodis.size(); i++)
-	{
-		string rotuojam = bitset<8>(zodis[i]).to_string();
-
-		int BitUniKodas = (int)zodis[i] + ZUniKodas;
-		//rotuojam bitus
-		rotuojam = Rotacija(rotuojam, BitUniKodas);
-
-		bitai += rotuojam + " ";
-	}
-}
-
-string Hashinimas::darom2(string zodis, int HashIlgis)
+string Hashinimas::darom(string zodis, int HashIlgis)
 {
 	Konstantos Konst;
 	int ZUniKodas = 0;
@@ -88,7 +90,7 @@ string Hashinimas::darom2(string zodis, int HashIlgis)
 	{
 		ZUniKodas += (int)zodis[i];
 	}
-
+	
 	if (zodis.length() < HashIlgis)
 	{
 		//datraukiam zodi iki reikiamo ilgio per konstantas
@@ -119,5 +121,6 @@ string Hashinimas::darom2(string zodis, int HashIlgis)
 
 		bitai += rotuojam + " ";
 	}
+
 	return atkonvertavimas(bitai);
 }
