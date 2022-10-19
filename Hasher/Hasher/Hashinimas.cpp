@@ -25,16 +25,27 @@ string atkonvertavimas(string bitai)
 	return HexZodis;
 }
 
+int UniKodas(string input)
+{
+	int output = 0;
+	for (int i = 0; i < input.length(); i++)
+	{
+		output += (int)input[i];
+	}
+	return output;
+}
+
 string Rotacija(string veiksnys, int ZUniKodas)
 {
+	double procentaliai = veiksnys.length() / 10.0;
 	if (ZUniKodas % 3 == 0)
-	rotate(veiksnys.begin(), veiksnys.begin() + 7, veiksnys.end());
+	rotate(veiksnys.begin(), veiksnys.begin() + procentaliai*7, veiksnys.end());
 	else if (ZUniKodas % 3 == 1)
-		rotate(veiksnys.begin(), veiksnys.begin() + 5, veiksnys.end());
+		rotate(veiksnys.begin(), veiksnys.begin() + procentaliai * 5, veiksnys.end());
 	else if (ZUniKodas % 3 == 2)
-		rotate(veiksnys.begin(), veiksnys.begin() + 3, veiksnys.end());
+		rotate(veiksnys.begin(), veiksnys.begin() + procentaliai * 3, veiksnys.end());
 	else
-		rotate(veiksnys.begin(), veiksnys.begin() + 1, veiksnys.end());
+		rotate(veiksnys.begin(), veiksnys.begin() + procentaliai * 1, veiksnys.end());
 
 	return veiksnys;
 }
@@ -84,12 +95,8 @@ string Rotacija(string veiksnys, int ZUniKodas)
 string Hashinimas::darom(string zodis, int HashIlgis)
 {
 	Konstantos Konst;
-	int ZUniKodas = 0;
+	int UniZodis = UniKodas(zodis);
 
-	for (int i = 0; i < zodis.length(); i++)
-	{
-		ZUniKodas += (int)zodis[i];
-	}
 	
 	if (zodis.length() < HashIlgis)
 	{
@@ -115,12 +122,15 @@ string Hashinimas::darom(string zodis, int HashIlgis)
 	{
 		string rotuojam = bitset<8>(zodis[i]).to_string();
 
-		int BitUniKodas = (int)zodis[i] + ZUniKodas;
+		int BitUniKodas = (int)zodis[i] + UniZodis;
 		//rotuojam bitus
 		rotuojam = Rotacija(rotuojam, BitUniKodas);
 
 		bitai += rotuojam + " ";
 	}
+	string hexas = atkonvertavimas(bitai);
+	int UniHex = UniKodas(hexas);
+	hexas = Rotacija(hexas, UniHex);
 
-	return atkonvertavimas(bitai);
+	return hexas;
 }

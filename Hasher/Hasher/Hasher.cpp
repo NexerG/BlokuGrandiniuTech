@@ -181,8 +181,8 @@ int main()
 					}
 				}
 				HashSkirtumas = HashSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length());
-
-				cout << "\nHashu panasumas, kai skirtumas tarp simboliu minimalus, yra: " << HashSkirtumas << "%\n";
+				Tikrinimas.clear();
+				cout << "\nHashu panasumas, kai originalus stringai skiriasi labai mazai, yra: " << HashSkirtumas << "%\n";
 			}
 			else
 			{
@@ -272,6 +272,10 @@ void generuojamF(int generacija)
 		{
 			RandIlgis = rand() % zdzIlgis;
 			r = rand() % 26;
+
+			while ('a' + r == zodis[RandIlgis])
+				r = rand() % 26;
+
 			zodis[RandIlgis] = 'a' + r;
 			fd << zodis << endl;
 		}
