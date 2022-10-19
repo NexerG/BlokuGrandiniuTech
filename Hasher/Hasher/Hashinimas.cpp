@@ -38,11 +38,11 @@ int UniKodas(string input)
 string Rotacija(string veiksnys, int ZUniKodas)
 {
 	double procentaliai = veiksnys.length() / 10.0;
-	if (ZUniKodas % 3 == 0)
-	rotate(veiksnys.begin(), veiksnys.begin() + procentaliai*7, veiksnys.end());
-	else if (ZUniKodas % 3 == 1)
+	if (ZUniKodas % 4 == 0)
+		rotate(veiksnys.begin(), veiksnys.begin() + procentaliai * 7, veiksnys.end());
+	else if (ZUniKodas % 4 == 1)
 		rotate(veiksnys.begin(), veiksnys.begin() + procentaliai * 5, veiksnys.end());
-	else if (ZUniKodas % 3 == 2)
+	else if (ZUniKodas % 4 == 2)
 		rotate(veiksnys.begin(), veiksnys.begin() + procentaliai * 3, veiksnys.end());
 	else
 		rotate(veiksnys.begin(), veiksnys.begin() + procentaliai * 1, veiksnys.end());

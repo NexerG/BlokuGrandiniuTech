@@ -6,8 +6,11 @@
 #include <fstream>
 #include "Hashinimas.h"
 #include <vector>
+#include <chrono>
+#include <math.h>
 
 using namespace std;
+using namespace std::chrono;
 
 const int HashIlgis = 32; //turi buti dvigubai mazesnis uz Hash ilgi nes HexaDecimal yra sudarytas is 2 simboliu
 const int punktas4 = 100000;
@@ -21,7 +24,7 @@ int main()
 
 
 	int startas;
-	cout << "Pasirinkite kaip norite atlikti hash.\n1. Ivedimas ranka\n2. Is failo\n";
+	cout << "Pasirinkite kaip norite atlikti hash.\n1. Ivedimas ranka\n2. Is failo\n3. Konstitucija\n";
 	cin >> startas;
 	if (startas == 1)
 	{
@@ -191,6 +194,28 @@ int main()
 			}
 		}
 	}
+	else if (startas == 3)
+	{
+		//konstitucija
+		ifstream fs;
+		string Linija;
+		auto start = high_resolution_clock::now();
+		auto end = high_resolution_clock::now();
+		for (int i = 1; i <= pow(2,12); i=i*2)
+		{
+			start = high_resolution_clock::now();
+			fs.open("konstitucija.txt");
+			for (int j = 0; j <= i;j++)
+			{
+				getline(fs, Linija);
+				veiksmas.darom(Linija,HashIlgis);
+			}
+			end = high_resolution_clock::now();
+			auto duration = duration_cast<milliseconds>(end - start);
+			cout << "Kad su'Hashinti " << i << " eiluciu uztruko: " << duration.count()<<" ms\n";
+			fs.close();
+		}
+	}
 }
 
 void generuojamF(int generacija)
@@ -260,7 +285,7 @@ void generuojamF(int generacija)
 	else if (generacija == 5)
 	{
 		ofstream fd("Hasher1.txt");
-		int RandIlgis,zdzIlgis=200;
+		int RandIlgis, zdzIlgis = 200;;
 
 		for (int i = 0; i < zdzIlgis; i++)
 		{
@@ -268,7 +293,7 @@ void generuojamF(int generacija)
 			c = 'a' + r;            // Convert to a character from a-z
 			zodis += c;
 		}
-		for (int i = 0; i < 1000; i++)
+		for (int i = 0; i < 25000; i++)
 		{
 			RandIlgis = rand() % zdzIlgis;
 			r = rand() % 26;
