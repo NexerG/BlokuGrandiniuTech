@@ -43,4 +43,5 @@ jeigu iš failų
 ---stringas paverčiamas dvejetainiu kodu  
 ---dvejetainis kodas rotuojamas naudojant unikalų žodžio kodą  
 ---dvejetainis kodas paverčiamas šešioliktainiu kodu  
+---šešioliktainis kodas rotuojamas naudojant unikalų hash'o kodą
 }  
