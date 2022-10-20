@@ -9,7 +9,7 @@ Apskaičiuoja Šešioliktainį labai greitai (su visom operacijom), tai yra, per
 Pradinio "stringo" neįmanoma atgaminti nežinant unikalaus "stringo" kodo, kuris gaunamas iš "stringo" (kitaip sakant neįmanoma atgaminti)  
 Bandyta 2 kartus su 100'000 skritingų 1000 simbolių ilgio "stringų". Nė vienos kolizijos  
 Žodžio unikalus kodas padaro, kad menkas skirtumas tarp dviejų "stringų" duoda visiškai kitą rezultatą.  
-6as punktas parodė, jog "hash'ai" skiriasi 20-40% kai lyginami patys "hash'ai", bet kai lyginamas dvejetainis, tai
+6as punktas parodė, jog "hash'ai" skiriasi 20-40% kai lyginami patys "hash'ai", bet kai lyginamas dvejetainis, tai 30-50%
 
 ## Išvados
 Striprybės:  
@@ -43,4 +43,5 @@ jeigu iš failų
 ---stringas paverčiamas dvejetainiu kodu  
 ---dvejetainis kodas rotuojamas naudojant unikalų žodžio kodą  
 ---dvejetainis kodas paverčiamas šešioliktainiu kodu  
+---šešioliktainis kodas rotuojamas naudojant unikalų hash'o kodą  
 }  
