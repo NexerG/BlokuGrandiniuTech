@@ -188,7 +188,6 @@ int main()
 					}
 				}
 				HashSkirtumas = HashSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length());
-				Tikrinimas.clear();
 				cout << "\nHashu panasumas, kai originalus stringai skiriasi labai mazai, yra: " << HashSkirtumas << "%\n";
 				
 				string Pirmas, Antras;
@@ -209,6 +208,7 @@ int main()
 					}
 				}
 				BitSkirtumas = BitSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length() * 8);
+				Tikrinimas.clear();
 				cout << "\nHashu panasumas, bitu lygmenyje, yra: " << BitSkirtumas << "%\n";
 			}
 
@@ -314,7 +314,7 @@ void generuojamF(int generacija)
 	else if (generacija == 5)
 	{
 		ofstream fd("Hasher1.txt");
-		int RandIlgis, zdzIlgis = 100;
+		int RandIlgis, zdzIlgis = 50;
 
 		for (int i = 0; i < zdzIlgis; i++)
 		{
@@ -322,7 +322,7 @@ void generuojamF(int generacija)
 			c = 'a' + r;            // Convert to a character from a-z
 			zodis += c;
 		}
-		for (int i = 0; i < 10000; i++)
+		for (int i = 0; i < 1000; i++)
 		{
 			RandIlgis = rand() % zdzIlgis;
 			r = rand() % 26;
