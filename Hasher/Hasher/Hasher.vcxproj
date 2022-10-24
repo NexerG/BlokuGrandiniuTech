@@ -142,10 +142,16 @@
     <ClCompile Include="Hasher.cpp" />
     <ClCompile Include="Hashinimas.cpp" />
     <ClCompile Include="Konstantos.cpp" />
+    <ClCompile Include="Transactions.cpp" />
+    <ClCompile Include="Uzd1.cpp" />
+    <ClCompile Include="Vartotojas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hashinimas.h" />
     <ClInclude Include="Konstantos.h" />
+    <ClInclude Include="Transactions.h" />
+    <ClInclude Include="Uzd1.h" />
+    <ClInclude Include="Vartotojas.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
