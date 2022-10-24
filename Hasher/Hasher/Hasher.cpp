@@ -22,7 +22,6 @@ int main()
 	Hashinimas veiksmas;
 	string pavad1, pavad2;
 
-
 	int startas;
 	cout << "Pasirinkite kaip norite atlikti hash.\n1. Ivedimas ranka\n2. Is failo\n3. Konstitucija\n";
 	cin >> startas;
@@ -31,7 +30,7 @@ int main()
 	if (startas == 1)
 	{
 		cin >> zodis;
-		veiksmas.darom(zodis, HashIlgis);
+		cout<<veiksmas.darom(zodis, HashIlgis);
 	}
 
 	//duomenys is failu (be konstitucijos)
@@ -166,39 +165,44 @@ int main()
 				//apsirasom kintamuosius
 				string dummy;
 				float HashSkirtumas = 0, BitSkirtumas = 0;
-				vector<string> Tikrinimas;
+				vector<string> Laikmena;
 
 				//surinkimas
 				while (fs >> dummy)
 				{
-					Tikrinimas.push_back(veiksmas.darom(dummy, HashIlgis));
+					Laikmena.push_back(veiksmas.darom(dummy, HashIlgis));
 				}
 				fs.close();
 
 				//tikrinimas hashu lygmeny
+				vector<string> Tikrinimas = Laikmena;
 				for (int i = 0; i < Tikrinimas.size(); i++)
 				{
 					for (int j = i + 1; j < Tikrinimas.size(); j++)
 					{
 						for (int k = 0; k < Tikrinimas[i].length(); k++)
 						{
-							if (Tikrinimas[i][k] == Tikrinimas[j][k])
+							if (Tikrinimas[i][k] == Tikrinimas[j][k] && Tikrinimas[i][k] != '?')
+							{
+								Tikrinimas[j][k] = '?';
 								HashSkirtumas += 1;
+							}
 						}
 					}
 				}
 				HashSkirtumas = HashSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length());
 				cout << "\nHashu panasumas, kai originalus stringai skiriasi labai mazai, yra: " << HashSkirtumas << "%\n";
-				
+				Tikrinimas.clear();
+
 				string Pirmas, Antras;
-				for (int i = 0; i < Tikrinimas.size(); i++)
+				for (int i = 0; i < Laikmena.size(); i++)
 				{
-					for (int j = i + 1; j < Tikrinimas.size(); j++)
+					for (int j = i + 1; j < Laikmena.size(); j++)
 					{
-						for (int k = 0; k < Tikrinimas[i].length(); k++)
+						for (int k = 0; k < Laikmena[i].length(); k++)
 						{
-							Pirmas = bitset<8>(Tikrinimas[i][k]).to_string();
-							Antras = bitset<8>(Tikrinimas[j][k]).to_string();
+							Pirmas = bitset<8>(Laikmena[i][k]).to_string();
+							Antras = bitset<8>(Laikmena[j][k]).to_string();
 							for (int b = 0; b < 8; b++)
 							{
 								if (Pirmas[b] == Antras[b])
@@ -207,8 +211,8 @@ int main()
 						}
 					}
 				}
-				BitSkirtumas = BitSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length() * 8);
-				Tikrinimas.clear();
+				BitSkirtumas = BitSkirtumas / (Laikmena.size() * Laikmena[0].length() * 8);
+				Laikmena.clear();
 				cout << "\nHashu panasumas, bitu lygmenyje, yra: " << BitSkirtumas << "%\n";
 			}
 
@@ -314,7 +318,7 @@ void generuojamF(int generacija)
 	else if (generacija == 5)
 	{
 		ofstream fd("Hasher1.txt");
-		int RandIlgis, zdzIlgis = 50;
+		int RandIlgis, zdzIlgis = 100;
 
 		for (int i = 0; i < zdzIlgis; i++)
 		{
@@ -322,7 +326,7 @@ void generuojamF(int generacija)
 			c = 'a' + r;            // Convert to a character from a-z
 			zodis += c;
 		}
-		for (int i = 0; i < 1000; i++)
+		for (int i = 0; i < 10000; i++)
 		{
 			RandIlgis = rand() % zdzIlgis;
 			r = rand() % 26;
