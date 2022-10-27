@@ -1,4 +1,5 @@
 #include "Uzd1.h"
+const int Gen5 = 50000;
 
 Uzd1::Uzd1()
 {
@@ -158,22 +159,28 @@ Uzd1::Uzd1()
 				}
 				fs.close();
 
-				//tikrinimas hashu lygmeny
+				//tikrinimas hashu lygmeny bet geriau
+				string Checkers = "0123456789abcdefghijklmnoprstuvzABCDEFGHIJKLMNOPRSTUVZ";
+				vector<vector<int>> matrica(55,vector<int>(Gen5,-1));
 				vector<string> Tikrinimas = Laikmena;
+				cout<<matrica.size();
+				auto start = high_resolution_clock::now();
+
 				for (int i = 0; i < Tikrinimas.size(); i++)
+					for (int k = 0; k < 64; k++)
+						matrica[Checkers.find(Tikrinimas[i][k])][i]++;
+
+				for (int i = 0; i < matrica.size(); i++)
 				{
-					for (int j = i + 1; j < Tikrinimas.size(); j++)
+					for (int j = 0; j < matrica[i].size(); j++)
 					{
-						for (int k = 0; k < Tikrinimas[i].length(); k++)
-						{
-							if (Tikrinimas[i][k] != '?' && Tikrinimas[i][k] == Tikrinimas[j][k])
-							{
-								Tikrinimas[j][k] = '?';
-								HashSkirtumas += 1;
-							}
-						}
+						if (matrica[i][j] > 0)
+							HashSkirtumas += matrica[i][j];
 					}
 				}
+				auto end = high_resolution_clock::now();
+				auto duration = duration_cast<milliseconds>(end - start);
+
 				HashSkirtumas = HashSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length());
 				cout << "\nHashu panasumas, kai originalus stringai skiriasi labai mazai, yra: " << HashSkirtumas << "%\n";
 				Tikrinimas.clear();
@@ -311,7 +318,7 @@ void Uzd1::generuojamF(int generacija)
 			c = 'a' + r;            // Convert to a character from a-z
 			zodis += c;
 		}
-		for (int i = 0; i < 50000; i++)
+		for (int i = 0; i < Gen5; i++)
 		{
 			RandIlgis = rand() % zdzIlgis;
 			r = rand() % 26;

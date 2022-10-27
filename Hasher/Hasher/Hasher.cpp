@@ -16,14 +16,14 @@
 int main()
 {
 	//atkomentuoti jeigu norima perziureti pirma uzduoti
-	//Uzd1 uzd;
+	Uzd1 uzd;
 	vector<Vartotojas> Vartotojai;
 	vector<Transactions> Tranzakcijos;
 
 	Vartotojas dummy;
 
-	for (int i = 0; i < 1000; i++)
-	{
-		
-	}
+	//for (int i = 0; i < 1000; i++)
+	//{
+	//	
+	//}
 }
