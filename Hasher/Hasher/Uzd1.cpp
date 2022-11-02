@@ -161,14 +161,13 @@ Uzd1::Uzd1()
 
 				//tikrinimas hashu lygmeny bet geriau
 				string Checkers = "0123456789abcdefghijklmnoprstuvzABCDEFGHIJKLMNOPRSTUVZ";
-				vector<vector<int>> matrica(55,vector<int>(Gen5,-1));
+				vector<vector<int>> matrica(55,vector<int>(64,-1));
 				vector<string> Tikrinimas = Laikmena;
-				cout<<matrica.size();
 				auto start = high_resolution_clock::now();
 
 				for (int i = 0; i < Tikrinimas.size(); i++)
 					for (int k = 0; k < 64; k++)
-						matrica[Checkers.find(Tikrinimas[i][k])][i]++;
+						matrica[Checkers.find(Tikrinimas[i][k])][k]++;
 
 				for (int i = 0; i < matrica.size(); i++)
 				{
@@ -184,25 +183,32 @@ Uzd1::Uzd1()
 				HashSkirtumas = HashSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length());
 				cout << "\nHashu panasumas, kai originalus stringai skiriasi labai mazai, yra: " << HashSkirtumas << "%\n";
 				Tikrinimas.clear();
+				vector<vector<int>> MatBit(2, vector<int>(64 * 8, -1));
 
-				string Pirmas, Antras;
+				string Pirmas, Antras="01";
 				for (int i = 0; i < Laikmena.size(); i++)
 				{
-					for (int j = i + 1; j < Laikmena.size(); j++)
+					for (int k = 0; k < 64; k++)
 					{
-						for (int k = 0; k < Laikmena[i].length(); k++)
+						Pirmas = bitset<8>(Laikmena[i][k]).to_string();
+						for (int b = 0; b < 8; b++)
 						{
-							Pirmas = bitset<8>(Laikmena[i][k]).to_string();
-							Antras = bitset<8>(Laikmena[j][k]).to_string();
-							for (int b = 0; b < 8; b++)
-							{
-								if (Pirmas[b] == Antras[b])
-									BitSkirtumas++;
-							}
+							if (int(Pirmas[b])-48 == 0)
+								MatBit[0][b + k * 8]++;
+							else MatBit[1][b + k * 8]++;
 						}
 					}
 				}
-				BitSkirtumas = BitSkirtumas / (Laikmena.size() * Laikmena[0].length() * 8);
+				for (int i = 0; i < MatBit.size(); i++)
+				{
+					for (int j = 0; j < MatBit[i].size(); j++)
+					{
+						if (MatBit[i][j] > 0)
+							BitSkirtumas += MatBit[i][j];
+					}
+				}
+
+				BitSkirtumas = BitSkirtumas / (Laikmena.size() * 64 * 8);
 				Laikmena.clear();
 				cout << "\nHashu panasumas, bitu lygmenyje, yra: " << BitSkirtumas << "%\n";
 			}
