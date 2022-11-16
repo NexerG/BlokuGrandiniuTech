@@ -9,7 +9,5 @@ using namespace std;
 class Hashinimas
 {
 public:
-	//void darom(string zodis, int HashIlgis);
 	string darom(string zodis, int HashIlgis);
 };
-

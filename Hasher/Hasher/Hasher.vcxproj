@@ -29,7 +29,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -139,16 +139,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Blokas.cpp" />
     <ClCompile Include="Hasher.cpp" />
     <ClCompile Include="Hashinimas.cpp" />
     <ClCompile Include="Konstantos.cpp" />
+    <ClCompile Include="Sha256.cpp" />
     <ClCompile Include="Transactions.cpp" />
     <ClCompile Include="Uzd1.cpp" />
     <ClCompile Include="Vartotojas.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Blokas.h" />
     <ClInclude Include="Hashinimas.h" />
     <ClInclude Include="Konstantos.h" />
+    <ClInclude Include="sha256.h" />
+    <ClInclude Include="ShaInline.h" />
     <ClInclude Include="Transactions.h" />
     <ClInclude Include="Uzd1.h" />
     <ClInclude Include="Vartotojas.h" />

@@ -11,7 +11,7 @@ string atkonvertavimas(string bitai)
 			stringstream ss;
 			ss << hex << raide.to_ullong();
 			if (ss.str().length() != 2)
-				ss << ss.str();
+				ss << 0;
 			HexZodis += ss.str();
 		}
 	else

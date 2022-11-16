@@ -33,6 +33,12 @@
     <ClCompile Include="Uzd1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Blokas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sha256.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Konstantos.h">
@@ -48,6 +54,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Uzd1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Blokas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sha256.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaInline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

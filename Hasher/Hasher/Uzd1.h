@@ -10,10 +10,10 @@
 #include <vector>
 #include <chrono>
 #include <math.h>
+#include "sha256.h"
 
 using namespace std;
 using namespace std::chrono;
-
 
 class Uzd1
 {

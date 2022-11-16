@@ -1,10 +1,10 @@
 #include "Uzd1.h"
-const int Gen5 = 50000;
+
+const int Gen5 = 10000;
 
 Uzd1::Uzd1()
 {
 	string zodis;
-	Hashinimas veiksmas;
 	string pavad1, pavad2;
 
 	int startas;
@@ -15,7 +15,7 @@ Uzd1::Uzd1()
 	if (startas == 1)
 	{
 		cin >> zodis;
-		cout << veiksmas.darom(zodis, HashIlgis);
+		cout << Sha256(zodis);
 	}
 
 	//duomenys is failu (be konstitucijos)
@@ -46,12 +46,12 @@ Uzd1::Uzd1()
 			{
 				fs1 >> zodis;
 				fs1.close();
-				cout << veiksmas.darom(zodis, HashIlgis);
+				cout << Sha256(zodis);
 				zodis.clear();
 
 				fs1 >> zodis;
 				fs1.close();
-				cout << veiksmas.darom(zodis, HashIlgis);
+				cout << Sha256(zodis);
 				zodis.clear();
 
 			}
@@ -71,11 +71,11 @@ Uzd1::Uzd1()
 			if (fs1.good() && fs2.good())
 			{
 				fs1 >> zodis;
-				cout << veiksmas.darom(zodis, HashIlgis);
+				cout << Sha256(zodis);
 				zodis.clear();
 
 				fs2 >> zodis;
-				cout << veiksmas.darom(zodis, HashIlgis);
+				cout << Sha256(zodis);
 				zodis.clear();
 			}
 			else
@@ -89,8 +89,8 @@ Uzd1::Uzd1()
 
 		else if (automatizuotas == 3)
 		{
-			cout << veiksmas.darom("a", HashIlgis);
-			cout << veiksmas.darom("b", HashIlgis);
+			cout << Sha256("a");
+			cout << Sha256("b");
 		}
 
 		else if (automatizuotas == 4)
@@ -104,7 +104,7 @@ Uzd1::Uzd1()
 				for (int i = 0; i < punktas4; i++)
 				{
 					fs1 >> zodis;
-					eksportas = veiksmas.darom(zodis, HashIlgis) + "\n";
+					eksportas = Sha256(zodis) + "\n";
 					fd << eksportas;
 
 					eksportas.clear();
@@ -149,42 +149,48 @@ Uzd1::Uzd1()
 			{
 				//apsirasom kintamuosius
 				string dummy;
-				float HashSkirtumas = 0, BitSkirtumas = 0;
+				float HashSkirtumas = 0.f, BitSkirtumas = 0.f;
 				vector<string> Laikmena;
 
 				//surinkimas
 				while (fs >> dummy)
 				{
-					Laikmena.push_back(veiksmas.darom(dummy, HashIlgis));
+					Laikmena.push_back(Sha256(dummy));
 				}
 				fs.close();
 
+				ofstream fd("testas.txt");
+				for (int i = 0; i < Laikmena.size(); i++)
+				{
+					fd << Laikmena[i] << endl;
+				}
+
 				//tikrinimas hashu lygmeny bet geriau
 				string Checkers = "0123456789abcdefghijklmnoprstuvzABCDEFGHIJKLMNOPRSTUVZ";
-				vector<vector<int>> matrica(55,vector<int>(64,-1));
+				vector<vector<int>> matrica(64,vector<int>(55,-1));
 				vector<string> Tikrinimas = Laikmena;
-				auto start = high_resolution_clock::now();
+				//auto start = high_resolution_clock::now();
 
 				for (int i = 0; i < Tikrinimas.size(); i++)
 					for (int k = 0; k < 64; k++)
-						matrica[Checkers.find(Tikrinimas[i][k])][k]++;
+						matrica[k][Checkers.find(Tikrinimas[i][k])]++;
 
 				for (int i = 0; i < matrica.size(); i++)
 				{
+					float StSkirt=0.f;
 					for (int j = 0; j < matrica[i].size(); j++)
 					{
-						if (matrica[i][j] > 0)
-							HashSkirtumas += matrica[i][j];
+						StSkirt += (float)matrica[i][j] / (float)Gen5;
 					}
+					HashSkirtumas += StSkirt;
 				}
-				auto end = high_resolution_clock::now();
-				auto duration = duration_cast<milliseconds>(end - start);
+				//auto end = high_resolution_clock::now();
+				//auto duration = duration_cast<milliseconds>(end - start);
 
-				HashSkirtumas = HashSkirtumas / (Tikrinimas.size() * Tikrinimas[0].length());
 				cout << "\nHashu panasumas, kai originalus stringai skiriasi labai mazai, yra: " << HashSkirtumas << "%\n";
 				Tikrinimas.clear();
-				vector<vector<int>> MatBit(2, vector<int>(64 * 8, -1));
 
+				vector<vector<int>> MatBit(2, vector<int>(64 * 8, -1));
 				string Pirmas, Antras="01";
 				for (int i = 0; i < Laikmena.size(); i++)
 				{
@@ -208,7 +214,7 @@ Uzd1::Uzd1()
 					}
 				}
 
-				BitSkirtumas = BitSkirtumas / (Laikmena.size() * 64 * 8);
+				BitSkirtumas = BitSkirtumas / (Laikmena.size() * 64 * 8) / 2 * 100;
 				Laikmena.clear();
 				cout << "\nHashu panasumas, bitu lygmenyje, yra: " << BitSkirtumas << "%\n";
 			}
@@ -231,6 +237,7 @@ Uzd1::Uzd1()
 		string Linija;
 		auto start = high_resolution_clock::now();
 		auto end = high_resolution_clock::now();
+		float Senas,Delta=0;
 		for (int i = 1; i <= pow(2, 12); i = i * 2)
 		{
 			start = high_resolution_clock::now();
@@ -238,11 +245,16 @@ Uzd1::Uzd1()
 			for (int j = 0; j <= i; j++)
 			{
 				getline(fs, Linija);
-				veiksmas.darom(Linija, HashIlgis);
+				Sha256(Linija);
 			}
 			end = high_resolution_clock::now();
 			auto duration = duration_cast<milliseconds>(end - start);
-			cout << "Kad su'Hashinti " << i << " eiluciu uztruko: " << duration.count() << " ms\n";
+			if (i>1)
+			{
+				Delta = duration.count() - Senas;
+			}
+			Senas = duration.count();
+			cout << "Kad su'Hashinti " << i << " eiluciu uztruko: " << duration.count() << " ms " << "ir skirtumas nuo seno yra: " << Delta << " ms\n";
 			fs.close();
 		}
 	}
@@ -252,7 +264,6 @@ Uzd1::Uzd1()
 void Uzd1::generuojamF(int generacija)
 {
 	srand(time(NULL));
-
 	string zodis;
 	int r;
 	char c;
@@ -316,7 +327,7 @@ void Uzd1::generuojamF(int generacija)
 	else if (generacija == 5)
 	{
 		ofstream fd("Hasher1.txt");
-		int RandIlgis, zdzIlgis = 250;
+		int RandIlgis, zdzIlgis = 100;
 
 		for (int i = 0; i < zdzIlgis; i++)
 		{
