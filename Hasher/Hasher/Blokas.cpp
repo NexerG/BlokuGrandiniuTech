@@ -83,19 +83,23 @@ void Blokas::CalcMerkle()
     KaHash.clear();
 }
 
-void Blokas::Mine()
+void Blokas::Mine(int trukme)
 {
     CalcMerkle();
 
-    for (Nonce = 0; Nonce < UINT64_MAX; Nonce++)
+    auto start = high_resolution_clock::now();
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - start);
+    while (duration.count() < trukme && Nonce < UINT64_MAX)
     {
+        start = high_resolution_clock::now();
         string MetaD;
         MetaD.append(PrevHash);
         MetaD.append(Time);
         MetaD.append(Version);
         MetaD.append(MerkelRHash);
         MetaD.append(to_string(Nonce));
-        string hash=Sha256(MetaD);
+        string hash = Sha256(MetaD);
         string dummy;
 
         for (int i = 0; i < DiffTarget; i++)
@@ -108,6 +112,11 @@ void Blokas::Mine()
             Hash = hash;
             break;
         }
+
+        end = high_resolution_clock::now();
+        duration = duration_cast<milliseconds>(end - start);
+
+        Nonce++;
     }
 }
 
@@ -115,7 +124,6 @@ void Blokas::Update(vector<Vartotojas> Vart)
 {
     vector<string> PKs;
     vector<string>::iterator it;
-    int r;
     for(int i=0;i<Vart.size();i++)
     {
         PKs.push_back(Vart[i].GetPubK());
@@ -133,10 +141,39 @@ void Blokas::Update(vector<Vartotojas> Vart)
     }
 }
 
+void Blokas::BalCheck(vector<Vartotojas> Vart)
+{
+    vector<string> PKs;
+    vector<string>::iterator it;
+    vector<int>r;
+    for (int i = 0; i < Vart.size(); i++)
+    {
+        PKs.push_back(Vart[i].GetPubK());
+    }
+
+    for (int i = 0; i < TransList.size(); i++)
+    {
+        it = find(PKs.begin(), PKs.end(), TransList[i].GetPubKSender());
+        if (it != PKs.end())
+        {
+            if (Vart[it-PKs.begin()].GetBal()<TransList[i].GetSum())
+            {
+                r.push_back(i);
+            }
+        }
+    }
+    for (int i = r.size(); i > 0; i--)
+    {
+        TransList.erase(TransList.begin() + r[i]);
+    }
+
+}
+
 Blokas::Blokas(vector<Transaction> Trans, string Vers, int diff, vector<Vartotojas> Vart)
 {
     SetTrans(Trans);
-
+    BalCheck(Vart);
+    
     stringstream ss;
     ss << time(NULL);
     SetTime(ss.str());
@@ -144,7 +181,10 @@ Blokas::Blokas(vector<Transaction> Trans, string Vers, int diff, vector<Vartotoj
     SetVersion(Vers);
     SetDiffTarget(diff);
 
-    Mine();
-    cout << Hash << endl;
+    Mine(5000);
+    if (Hash != "")
+        cout << Hash << endl;
+    else
+        cout << "Blokas neiskastas" << endl;
     Update(Vart);
 }

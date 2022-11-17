@@ -57,29 +57,31 @@ int main()
 	int diff = 3;
 	int laikas = 1;
 	vector<Blokas> Blokai;
-	if (Tranzakcijos.size() > 0)
+	while (Tranzakcijos.size() > 0)
+	{
+		vector<Transaction> LaikTrans;
 		for (int i = 0; i < 100; i++)
 		{
-			vector<Transaction> Dum;
+			r = rand() % Tranzakcijos.size();
+			LaikTrans.push_back(Tranzakcijos[r]);
+			Tranzakcijos.erase(Tranzakcijos.begin() + r);
+		}
+
+		Blokas Blck(LaikTrans, "1", diff, Vartotojai);
+
+		if (Blck.GetHash() != "")
+		{
+			Blokai.push_back(Blck);
+			LaikTrans.clear();
+			diff++;
+		}
+		else
+		{
 			for (int i = 0; i < 100; i++)
 			{
-				r = rand() % Tranzakcijos.size();
-				Dum.push_back(Tranzakcijos[r]);
-				Tranzakcijos.erase(Tranzakcijos.begin() + r);
+				Tranzakcijos.push_back(LaikTrans[i]);
 			}
-
-			auto start = high_resolution_clock::now();
-
-			Blokas Blck(Dum, "1", diff, Vartotojai);
-			auto end = high_resolution_clock::now();
-			auto duration = duration_cast<milliseconds>(end - start);
-			if (duration.count() / 1000 < laikas)
-			{
-				diff++;
-			}
-			else
-				diff--;
-			Dum.clear();
-			Blokai.push_back(Blck);
+			LaikTrans.clear();
 		}
+	}
 }

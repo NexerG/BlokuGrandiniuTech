@@ -1,6 +1,6 @@
 #include "Uzd1.h"
 
-const int Gen5 = 10000;
+const int Gen5 = 100000;
 
 Uzd1::Uzd1()
 {
@@ -166,10 +166,11 @@ Uzd1::Uzd1()
 				}
 
 				//tikrinimas hashu lygmeny bet geriau
-				string Checkers = "0123456789abcdefghijklmnoprstuvzABCDEFGHIJKLMNOPRSTUVZ";
-				vector<vector<int>> matrica(64,vector<int>(55,-1));
+				string Checkers = "0123456789abcdef";
+				vector<vector<int>> matrica(64,vector<int>(16,-1));
 				vector<string> Tikrinimas = Laikmena;
 				//auto start = high_resolution_clock::now();
+				int did = 0;
 
 				for (int i = 0; i < Tikrinimas.size(); i++)
 					for (int k = 0; k < 64; k++)
@@ -177,17 +178,17 @@ Uzd1::Uzd1()
 
 				for (int i = 0; i < matrica.size(); i++)
 				{
-					float StSkirt=0.f;
 					for (int j = 0; j < matrica[i].size(); j++)
 					{
-						StSkirt += (float)matrica[i][j] / (float)Gen5;
+						if (matrica[i][j] > did)
+							did = matrica[i][j];
 					}
-					HashSkirtumas += StSkirt;
 				}
+
 				//auto end = high_resolution_clock::now();
 				//auto duration = duration_cast<milliseconds>(end - start);
-
-				cout << "\nHashu panasumas, kai originalus stringai skiriasi labai mazai, yra: " << HashSkirtumas << "%\n";
+				HashSkirtumas = (float)did/(float)Gen5*100;
+				cout << "\nHashu panasumas yra: " << HashSkirtumas << "%\n";
 				Tikrinimas.clear();
 
 				vector<vector<int>> MatBit(2, vector<int>(64 * 8, -1));
@@ -328,24 +329,28 @@ void Uzd1::generuojamF(int generacija)
 	{
 		ofstream fd("Hasher1.txt");
 		int RandIlgis, zdzIlgis = 100;
-
-		for (int i = 0; i < zdzIlgis; i++)
+		for (int j = 0; j < Gen5; j++)
 		{
-			r = rand() % 26;   // generate a random number
-			c = 'a' + r;            // Convert to a character from a-z
-			zodis += c;
-		}
-		for (int i = 0; i < Gen5; i++)
-		{
-			RandIlgis = rand() % zdzIlgis;
-			r = rand() % 26;
-
-			while ('a' + r == zodis[RandIlgis])
-				r = rand() % 26;
-
-			zodis[RandIlgis] = 'a' + r;
+			for (int i = 0; i < zdzIlgis; i++)
+			{
+				r = rand() % 26;   // generate a random number
+				c = 'a' + r;            // Convert to a character from a-z
+				zodis += c;
+			}
 			fd << zodis << endl;
+			zodis = "";
 		}
+		//for (int i = 0; i < Gen5; i++)
+		//{
+		//	RandIlgis = rand() % zdzIlgis;
+		//	r = rand() % 26;
+
+		//	while ('a' + r == zodis[RandIlgis])
+		//		r = rand() % 26;
+
+		//	zodis[RandIlgis] = 'a' + r;
+		//	fd << zodis << endl;
+		//}
 		fd.close();
 	}
 	cout << "Sugeneruota.\n";

@@ -15,19 +15,19 @@ using std::vector;
 using std::stringstream;
 using std::to_string;
 using std::find;
+using namespace std::chrono;
 
 class Blokas
 {
-
 public:
 	Blokas(vector<Transaction> Trans, string Vers, int diff, vector<Vartotojas> Vart);
+	string GetHash();
 
 private:
 	string Hash, PrevHash, Time, Version, MerkelRHash;
 	vector<Transaction> TransList;
 	uint64_t Nonce = 0;
 	int DiffTarget;
-	string GetHash();
 	string GetPrevHash();
 	vector<Transaction> GetTrans();
 
@@ -41,8 +41,9 @@ private:
 
 	void CalcMerkle();
 
-	void Mine();
+	void Mine(int trukme);
 	void Update(vector<Vartotojas> Vart);
+	void BalCheck(vector<Vartotojas> Vart);
 
 };
 
