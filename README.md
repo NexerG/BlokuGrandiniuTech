@@ -9,7 +9,14 @@ Apskaičiuoja Šešioliktainį labai greitai (su visom operacijom), tai yra, per
 Pradinio "stringo" neįmanoma atgaminti nežinant unikalaus "stringo" kodo, kuris gaunamas iš "stringo" (kitaip sakant neįmanoma atgaminti)  
 Bandyta 2 kartus su 100'000 skritingų 1000 simbolių ilgio "stringų". Nė vienos kolizijos  
 Žodžio unikalus kodas padaro, kad menkas skirtumas tarp dviejų "stringų" duoda visiškai kitą rezultatą.  
-6as punktas parodė, jog "hash'ai" skiriasi 20-40% kai lyginami patys "hash'ai", bet kai lyginamas dvejetainis, tai 30-50%
+  
+Konstitucijos punktą padaro taip:   
+![asd](https://user-images.githubusercontent.com/68482683/202278874-2be832b7-ff43-4371-94b5-578f9cea8de0.png)
+  
+  
+6as punktas parodė, jog "hash'ų" skirtingumas kai hašai mažai skiriasi yra: Min: 6.455% Avg: 6.4906% Max: 6.551%  
+6as punktas parodė, jog "hash'ų" skirtingumas kai hašai daug skiriasi yra: Min: 6.473% Avg: 6.4992% Max: 6.548 %  
+Be to, kai lyginamas dvejetainis, tai: Min: 49.985% Avg: 49.9992% Max: 51.0012%
 
 ## Išvados
 Striprybės:  
