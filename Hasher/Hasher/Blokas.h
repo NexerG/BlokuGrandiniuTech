@@ -20,16 +20,17 @@ using namespace std::chrono;
 class Blokas
 {
 public:
-	Blokas(vector<Transaction> Trans, string Vers, int diff, vector<Vartotojas> Vart);
+	Blokas(vector<Transaction> Trans, string Vers, int diff, vector<Vartotojas> Vart, Blokas Praeitas);
+	Blokas(string roothash);
 	string GetHash();
+	string GetPrevHash();
+	vector<Transaction> GetTrans();
 
 private:
 	string Hash, PrevHash, Time, Version, MerkelRHash;
 	vector<Transaction> TransList;
 	uint64_t Nonce = 0;
 	int DiffTarget;
-	string GetPrevHash();
-	vector<Transaction> GetTrans();
 
 	void SetPrevHash(string value);
 	void SetVersion(string value);

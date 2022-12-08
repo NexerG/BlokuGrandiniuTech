@@ -57,31 +57,76 @@ int main()
 	int diff = 3;
 	int laikas = 1;
 	vector<Blokas> Blokai;
-	while (Tranzakcijos.size() > 0)
+	Blokas rootas("");
+	Blokai.push_back(rootas);
+	while (Tranzakcijos.size() > 99)
 	{
-		vector<Transaction> LaikTrans;
-		for (int i = 0; i < 100; i++)
+		if (Blokai.size() < 5)
 		{
-			r = rand() % Tranzakcijos.size();
-			LaikTrans.push_back(Tranzakcijos[r]);
-			Tranzakcijos.erase(Tranzakcijos.begin() + r);
-		}
-
-		Blokas Blck(LaikTrans, "1", diff, Vartotojai);
-
-		if (Blck.GetHash() != "")
-		{
-			Blokai.push_back(Blck);
-			LaikTrans.clear();
-			diff++;
-		}
-		else
-		{
+			vector<Transaction> LaikTrans;
 			for (int i = 0; i < 100; i++)
 			{
-				Tranzakcijos.push_back(LaikTrans[i]);
+				r = rand() % Tranzakcijos.size();
+				LaikTrans.push_back(Tranzakcijos[r]);
+				Tranzakcijos.erase(Tranzakcijos.begin() + r);
 			}
-			LaikTrans.clear();
+
+			Blokas Blck(LaikTrans, "1", diff, Vartotojai, Blokai[Blokai.size() - 1]);
+
+			if (Blck.GetHash() != "")
+			{
+				Blokai.push_back(Blck);
+				LaikTrans.clear();
+				diff++;
+			}
+			else
+			{
+				for (int i = 0; i < 100; i++)
+				{
+					Tranzakcijos.push_back(LaikTrans[i]);
+				}
+				LaikTrans.clear();
+				diff--;
+			}
+		}
+		else break;
+	}
+	//padaryti bloku perziuros sekcija
+	vector<string> siuntejai;
+	vector<string>::iterator it;
+	for (int i = 0; i < Vartotojai.size(); i++)
+	{
+		siuntejai.push_back(Vartotojai[i].GetPubK());
+	}
+
+	while (true)
+	{
+		int blckIsvedimas;
+		cout << "Pasirinkite kurio bloko informacija isvesti, 0 jeigu baigti darba. Bloku informacijos pasirinkimai yra: 1-" << Blokai.size() - 1 << endl;
+		cin >> blckIsvedimas;
+		if (blckIsvedimas == 0)
+			break;
+		else
+		{
+			cout << "Bloko nr." << blckIsvedimas << " informacija:\n";
+			cout << "----------------------------------------------------\n";
+			cout << "Previous hash: " << Blokai[blckIsvedimas].GetPrevHash() << endl;
+			cout << "Current hash: " << Blokai[blckIsvedimas].GetHash() << endl;
+			cout << "Tranzakciju kiekis: " << Blokai[blckIsvedimas].GetTrans().size() << endl;
+			for (int i = 0; i < Blokai[blckIsvedimas].GetTrans().size(); i++)
+			{
+				cout << "---\n";
+				cout << i << ")\n";
+				it = find(siuntejai.begin(), siuntejai.end(), Blokai[blckIsvedimas].GetTrans()[i].GetPubKSender());
+				cout << "	Siuntejas: " << Vartotojai[it - siuntejai.begin()].GetName() << endl;
+
+				it = find(siuntejai.begin(), siuntejai.end(), Blokai[blckIsvedimas].GetTrans()[i].GetPubKRec());
+				cout << "	Gavejas: " << Vartotojai[it-siuntejai.begin()].GetName() << endl;
+
+				cout << "	suma: " << Blokai[blckIsvedimas].GetTrans()[i].GetSum() << endl;
+				cout << "---\n";
+			}
+			cout << "----------------------------------------------------\n";
 		}
 	}
 }

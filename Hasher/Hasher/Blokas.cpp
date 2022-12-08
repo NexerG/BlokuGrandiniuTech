@@ -92,7 +92,6 @@ void Blokas::Mine(int trukme)
     auto duration = duration_cast<milliseconds>(end - start);
     while (duration.count() < trukme && Nonce < UINT64_MAX)
     {
-        start = high_resolution_clock::now();
         string MetaD;
         MetaD.append(PrevHash);
         MetaD.append(Time);
@@ -162,17 +161,22 @@ void Blokas::BalCheck(vector<Vartotojas> Vart)
             }
         }
     }
-    for (int i = r.size(); i > 0; i--)
+
+    for (int i = r.size()-1; i >= 0; i--)
     {
         TransList.erase(TransList.begin() + r[i]);
     }
-
 }
 
-Blokas::Blokas(vector<Transaction> Trans, string Vers, int diff, vector<Vartotojas> Vart)
+Blokas::Blokas(vector<Transaction> Trans, string Vers, int diff, vector<Vartotojas> Vart, Blokas Praeitas)
 {
     SetTrans(Trans);
     BalCheck(Vart);
+
+    if (Praeitas.Hash != "")
+        PrevHash = Praeitas.Hash;
+    else PrevHash = "Root";
+
     
     stringstream ss;
     ss << time(NULL);
@@ -183,8 +187,14 @@ Blokas::Blokas(vector<Transaction> Trans, string Vers, int diff, vector<Vartotoj
 
     Mine(5000);
     if (Hash != "")
+    {
         cout << Hash << endl;
+        Update(Vart);
+    }
     else
         cout << "Blokas neiskastas" << endl;
-    Update(Vart);
+}
+
+Blokas::Blokas(string roothash)
+{
 }
