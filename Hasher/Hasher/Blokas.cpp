@@ -55,32 +55,15 @@ void Blokas::AddTransaction(Transaction Trans)
 
 void Blokas::CalcMerkle()
 {
-    Hashinimas Darom;
-
-    string L1, L2, L3, L4;
-    vector<string>KaHash;
     vector<Transaction>Trans = GetTrans();
+
+    string MerkHash="";
     for (int i = 0; i < Trans.size(); i++)
     {
-        L1 = Darom.darom(Trans[i].GetPubKSender(), 32);
-        L2 = Darom.darom(Trans[i].GetPubKRec(), 32);
-        L3 = Darom.darom(Trans[i].GetSumStr(), 32);
-        L4 = Darom.darom(Trans[i].GetTransId(), 32);
-
-        KaHash.push_back(Darom.darom(L1 + L2 + L3 + L4, 64));
+        MerkHash.append(Trans[i].GetTransId());
     }
     Trans.clear();
-
-    for (int i = KaHash.size()-1; i >= 0; i--)
-    {
-        string trumpas;
-        trumpas.append(KaHash[0]);
-        trumpas.append(KaHash[i]);
-        KaHash[0] = Sha256(trumpas);
-    }
-
-    this->MerkelRHash = KaHash[0];
-    KaHash.clear();
+    this->MerkelRHash = MerkHash;
 }
 
 void Blokas::Mine(int trukme)

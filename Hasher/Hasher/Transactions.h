@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "sha256.h"
 
 using std::string;
 
@@ -16,6 +17,7 @@ public:
 	void SetSum(double value);
 	void SetPubKSen(string value);
 	void SetPubKRec(string value);
+	void genHash();
 
 private:
 	string TransId, PubKSender, PubKReceiver;

@@ -46,6 +46,8 @@ int main()
 		while (dummyT.GetPubKRec() == dummyT.GetPubKSender())
 			dummyT.SetPubKSen(Vartotojai[(rand() % Vartotojai.size())].GetPubK());
 
+		dummyT.genHash();
+
 		Tranzakcijos.push_back(dummyT);
 	}
 

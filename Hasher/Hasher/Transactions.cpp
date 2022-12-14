@@ -42,3 +42,8 @@ void Transaction::SetPubKRec(string value)
 {
 	this->PubKReceiver = value;
 }
+
+void Transaction::genHash()
+{
+	TransId = Sha256(PubKReceiver + PubKSender + to_string(Sum));
+}
