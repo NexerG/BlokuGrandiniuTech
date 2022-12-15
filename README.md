@@ -1,4 +1,4 @@
-# Naudojimas:
+# Antros užduoties naudojimas:
 Įjungti programą, palaukti kol programa sugeneruos blokus;  
 Pasirinkti kurių blokų informaciją norima pamatyti (nuo 1 iki x blokų; 0 jeigu išjungti programą).  
   
