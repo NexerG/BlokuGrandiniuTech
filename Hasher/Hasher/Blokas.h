@@ -24,6 +24,7 @@ public:
 	Blokas(string roothash);
 	string GetHash();
 	string GetPrevHash();
+	string GetMerkle();
 	vector<Transaction> GetTrans();
 
 private:
@@ -41,6 +42,7 @@ private:
 	void AddTransaction(Transaction Trans);
 
 	void CalcMerkle();
+	vector<string> Dalinam(vector<string> Duomenys);
 
 	void Mine(int trukme);
 	void Update(vector<Vartotojas> Vart);

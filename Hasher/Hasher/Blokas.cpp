@@ -10,6 +10,11 @@ string Blokas::GetPrevHash()
     return PrevHash;
 }
 
+string Blokas::GetMerkle()
+{
+    return MerkelRHash;
+}
+
 vector<Transaction> Blokas::GetTrans()
 {
     return TransList;
@@ -58,12 +63,33 @@ void Blokas::CalcMerkle()
     vector<Transaction>Trans = GetTrans();
 
     string MerkHash="";
+    vector<string> KaHash;
+
     for (int i = 0; i < Trans.size(); i++)
-    {
-        MerkHash.append(Trans[i].GetTransId());
-    }
+        KaHash.push_back(Trans[i].GetTransId());
     Trans.clear();
-    this->MerkelRHash = MerkHash;
+
+    while (KaHash.size() > 1)
+    {
+        KaHash = Dalinam(KaHash);
+    }
+
+    this->MerkelRHash = KaHash[0];
+}
+
+vector<string> Blokas::Dalinam(vector<string> Duomenys)
+{
+    vector<string> Pusinis;
+    for (int i = 0; i < Duomenys.size() / 2; i = i + 2)
+    {
+        string dummy="";
+        dummy.append(Duomenys[i]);
+        dummy.append(Duomenys[i + 1]);
+        dummy = Sha256(dummy);
+        Pusinis.push_back(dummy);
+    }
+
+    return Pusinis;
 }
 
 void Blokas::Mine(int trukme)

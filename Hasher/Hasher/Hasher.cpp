@@ -63,7 +63,7 @@ int main()
 	Blokai.push_back(rootas);
 	while (Tranzakcijos.size() > 99)
 	{
-		if (Blokai.size() < 5)
+		if (Blokai.size() < 10)
 		{
 			vector<Transaction> LaikTrans;
 			for (int i = 0; i < 100; i++)
@@ -108,13 +108,14 @@ int main()
 		cin >> blckIsvedimas;
 		if (blckIsvedimas == 0)
 			break;
-		else
+		else if(blckIsvedimas<Blokai.size())
 		{
 			cout << "Bloko nr." << blckIsvedimas << " informacija:\n";
 			cout << "----------------------------------------------------\n";
 			cout << "Previous hash: " << Blokai[blckIsvedimas].GetPrevHash() << endl;
 			cout << "Current hash: " << Blokai[blckIsvedimas].GetHash() << endl;
 			cout << "Tranzakciju kiekis: " << Blokai[blckIsvedimas].GetTrans().size() << endl;
+			cout << "Merkle root hash: " << Blokai[blckIsvedimas].GetMerkle() << endl;
 			for (int i = 0; i < Blokai[blckIsvedimas].GetTrans().size(); i++)
 			{
 				cout << "---\n";
@@ -129,6 +130,10 @@ int main()
 				cout << "---\n";
 			}
 			cout << "----------------------------------------------------\n";
+		}
+		else
+		{
+			cout << "Bloko su tokiu numeriu nera" << endl;
 		}
 	}
 }
